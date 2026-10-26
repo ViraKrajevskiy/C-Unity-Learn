@@ -343,16 +343,65 @@
 // }
 //
 //
+// for (int i = 1; i <= 15; i++)
+// {
+//  if (i % 3 != 0)
+//  {
+//   Console.WriteLine(i);
+//  }
+// }
 
-for (int i = 1; i <= 15; i++)
-{
- if (i % 3 != 0)
- {
-  Console.WriteLine(i);
- }
-}
+/*
+ * switch - конструкция похожая на if Конструкция switch/case оценивает некоторое выражение и сравнивает его значение с набором значений.
+ * И при совпадении значений выполняет определенный код.
+ */ 
 
-/* array аррай хранит данные */
+// switch (выражение)
+// {
+//  case значение1:
+//  код,выполняемый если выражение имеет значение1
+//  break;
+//  case значение2:
+//  код,выполняемый если выражение имеет значение2
+//  break;
+//  //.............
+//  case значениеN:
+//  код, выполняемый если выражение имеет значениеN
+//  break;
+//  default:
+//  код, выполняемый если выражение не имеет ни одно из выше указанных значений
+//  break;
+// }
+
+/*
+ * While цикл 
+ */
+
+// class App
+// {
+//  public static void PrintNumbers(int lastNumber)
+//  {
+//   // i сокращение от index (порядковый номер)
+//   // используется по общему соглашению во множестве языков
+//   // как счетчик цикла
+//   var i = 1;
+//
+//   while (i <= lastNumber)
+//   {
+//    Console.WriteLine(i);
+//    i = i + 1;
+//   }
+//
+//   Console.WriteLine("finished!");
+//  }
+// }
+//
+// App.PrintNumbers(3);
+
+/*
+ * array - массивы  аррай хранит данные
+ * https://metanit.com/sharp/tutorial/3.45.php
+ */
 
 // int[] luckyNumbers = {3, 4, 144, 135, 105, 21};
 //
@@ -363,3 +412,48 @@ for (int i = 1; i <= 15; i++)
 // luckyNumbers[1] = 400;
 //
 // Console.WriteLine(luckyNumbers[1]);
+
+/*
+ * Обозначение данных в массиве
+ */
+
+// int[] arrNumbers = new int[5];
+//
+// // заполняем массив
+// arrNumbers[0] = 1;
+// arrNumbers[1] = 5;
+// arrNumbers[2] = 7;
+// arrNumbers[3] = 10;
+// arrNumbers[4] = 25;
+//
+// // показываем массив на экране
+// for (int i = 0; i < arrNumbers.Length; i++)
+// {
+//  int number = arrNumbers[i];
+//  Console.WriteLine(number);
+// }
+
+/*
+ * массив с разными типом данных
+ */
+
+// class Program
+// {
+//  static void Main()
+//  {
+//   int[] scores = new int[4];                     // 4 elements, all 0
+//   string[] names = { "Ana", "Ben", "Chloe" };     // initializer
+//   double[] prices = new double[] { 2.5, 9.99 };   // explicit form
+//   var days = new[] { "Mon", "Tue", "Wed" };       // type inferred: string[]
+//
+//   scores[0] = 90;
+//   scores[3] = 72;
+//
+//   Console.WriteLine(string.Join(", ", scores));
+//   Console.WriteLine(names[1]);
+//   Console.WriteLine(prices.Length + " prices, " + days.Length + " days");
+//  }
+// }
+
+// object[] arr1 = {"aaa", 5, 7, 8.6, "eeee"};
+

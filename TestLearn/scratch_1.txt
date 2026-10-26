@@ -1,0 +1,129 @@
+﻿1. Основы программы
+Структура: using, namespace, метод Main, top-level statements
+Точка с запятой, блоки {}, регистр букв
+Комментарии: //, /* */, ///
+
+2. Типы данных
+Целые: sbyte, byte, short, ushort, int, uint, long, ulong
+Дробные: float, double, decimal, суффиксы f, d, m
+Прочие: bool, char, string, object
+Значимые и ссылочные типы (базово)
+Значения по умолчанию, default
+var: вывод типа
+
+3. Переменные и константы
+Объявление, инициализация, присваивание
+const и readonly
+Именование переменных
+
+4. Преобразование типов
+Неявное и явное приведение (int)
+Convert.ToInt32 и другие методы Convert
+Parse, TryParse
+Ошибки при преобразовании и переполнение (checked, unchecked, базово)
+
+5. Nullable
+int?, HasValue, Value
+??, ??=, ?.
+
+6. Операторы
+Арифметические: +, -, *, /, %, целочисленное деление
+Инкремент и декремент: ++, --, префиксная и постфиксная формы
+Составное присваивание: +=, -=, *=, /=, %=
+Сравнения: ==, !=, <, >, <=, >=
+Логические: &&, ||, !, короткое замыкание
+Тернарный: ?:
+Побитовые: &, |, ^, ~, <<, >>
+Приоритет операторов
+is и as (базово)
+
+7. Ввод и вывод в консоли
+Console.Write, Console.WriteLine
+Console.ReadLine, Console.Read, Console.ReadKey
+Console.Clear, Console.Title
+Console.ForegroundColor, Console.BackgroundColor
+Форматирование чисел: {value:N2}, {value:C}, {value:P}
+
+8. Строки
+Интерполяция $"", verbatim @"", экранирование \", \n, \t
+Неизменяемость строк
+Методы: Length, Substring, Contains, Split, Trim, TrimStart, TrimEnd, Replace, Insert, Remove, IndexOf, LastIndexOf, ToUpper, ToLower, StartsWith, EndsWith, PadLeft, PadRight
+Статические: string.Join, string.Format, string.Concat, string.IsNullOrEmpty, string.IsNullOrWhiteSpace
+Сравнение строк: Equals, CompareTo, string.Compare
+ToCharArray, перебор символов
+StringBuilder
+Методы char: IsDigit, IsLetter, IsUpper, IsLower, IsWhiteSpace, ToUpper, ToLower
+
+9. Условия
+if, else if, else
+switch: классический и switch expression
+Сопоставление с образцом: is, when, паттерны типов и диапазонов
+
+10. Циклы
+for, while, do-while
+foreach
+break, continue
+Вложенные циклы
+goto (кратко, чтобы знать, что это есть)
+
+11. Массивы
+Одномерные: объявление, инициализация, индексы, Length
+Многомерные: int[,], GetLength
+Зубчатые: int[][]
+Класс Array: Sort, Reverse, IndexOf, Copy, Clear, Resize
+Массивы как параметры методов
+
+12. Методы
+Объявление, void, return
+Параметры, возвращаемые значения
+Перегрузка
+Передача по значению, ref, out, in
+params, значения по умолчанию, именованные аргументы
+Expression-bodied методы (=>)
+Локальные функции
+Рекурсия
+Аргументы командной строки: string[] args в Main
+
+13. Область видимости
+Блоки {} и где живёт переменная
+Параметры и локальные переменные
+Затенение переменных
+Поля и static (кратко, перед ООП)
+Время жизни переменных
+
+14. Обработка ошибок
+try, catch, finally
+throw и повторный throw
+Типы исключений: FormatException, DivideByZeroException, IndexOutOfRangeException, NullReferenceException, ArgumentException
+Фильтры catch when (базово)
+
+15. Обобщения (generics), нужны для коллекций
+Что такое T и зачем он нужен
+Как читать List<T>, Dictionary<TKey, TValue>
+
+16. Коллекции
+List<T>: Add, Remove, Insert, Contains, Count, индексатор
+Dictionary<TKey, TValue>: Add, TryGetValue, ContainsKey, перебор
+HashSet<T>
+Queue<T>, Stack<T>
+IEnumerable<T> и foreach по коллекциям
+
+17. Перечисления и структуры
+enum: объявление, приведение к int и обратно, switch по enum
+struct: значимый тип (кратко)
+Кортежи: (int, string), именованные элементы, деконструкция
+record (базово)
+
+18. Делегаты и лямбды
+Делегаты: Func, Action, Predicate
+Лямбды: =>
+Передача метода как аргумента
+
+19. LINQ базово
+Where, Select, OrderBy, OrderByDescending, Sum, Count, Max, Min, Average, First, Any, All
+Цепочки запросов
+
+20. Стандартная библиотека
+Random: Next с разными аргументами
+Math: Max, Min, Abs, Sqrt, Pow, Round, Floor, Ceiling, PI
+DateTime, TimeSpan: создание, сложение, ToString
