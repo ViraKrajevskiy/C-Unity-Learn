@@ -708,3 +708,415 @@
 //  Console.WriteLine(string.Join(" ", numbers));
 // }
 
+/*
+ * Область видимости: переменная живёт внутри {}, где объявлена
+ */
+
+// int a = 1;
+// {
+//     int b = 2;
+//     Console.WriteLine(a + b);   // a и b видны
+// }
+// Console.WriteLine(a);           // ок
+// Console.WriteLine(b);           // ошибка: b живёт только в блоке выше
+
+/*
+ * Переменная цикла живёт только в цикле
+ */
+
+// for (int i = 0; i < 3; i++)
+// {
+//     int sq = i * i;             // создаётся заново на каждой итерации
+// }
+// Console.WriteLine(i);           // ошибка
+// Console.WriteLine(sq);          // ошибка
+
+/*
+ * Параметры и локальные переменные живут только внутри метода
+ */
+
+// int Add(int x, int y)           // x, y: параметры
+// {
+//     int sum = x + y;            // sum: локальная
+//     return sum;
+// }
+// Console.WriteLine(sum);         // ошибка: sum существует только в Add
+
+/*
+ * Затенение: в C# локальную переменную с тем же именем
+ * во вложенном блоке объявлять НЕЛЬЗЯ
+ */
+
+// int count = 0;
+// if (true)
+// {
+//     int count = 5;              // ошибка CS0136
+// }
+
+// Но для полей класса можно: параметр или локальная закрывает поле, поле достаётся через this
+// class Player
+// {
+//     int score = 10;             // поле
+//
+//     void Show(int score)        // параметр с тем же именем закрывает поле
+//     {
+//         Console.WriteLine(score);        // параметр
+//         Console.WriteLine(this.score);   // поле
+//     }
+// }
+
+/*
+ * out-переменные
+ */
+
+// if (int.TryParse("5", out int n))
+// {
+//     Console.WriteLine(n);       // видна только в этом if
+// }
+// Console.WriteLine(n);           // ошибка
+
+// int.TryParse("5", out int m);   // отдельной строкой: m видна дальше в блоке
+// Console.WriteLine(m);           // ок
+
+/*
+ * Top-level код: переменные верхнего уровня видны в локальных функциях
+ * (поэтому ru и en работали внутри ChooseLanguage), но не в классах
+ */
+
+// int total = 0;
+//
+// void AddToTotal(int x) => total += x;   // видит total
+//
+// AddToTotal(5);
+// Console.WriteLine(total);               // 5
+//
+// class Helper
+// {
+//     void Test() { total++; }            // ошибка: класс не видит total
+// }
+
+/*
+ * Поля и static (кратко, подробнее в ООП)
+ * Поле: переменная внутри класса, а не метода. Живёт, пока жив объект.
+ * static: одна общая копия на весь класс, живёт всю программу.
+ */
+
+// class Counter
+// {
+//     int own = 0;                 // у каждого объекта своё
+//     static int shared = 0;       // одно на всех
+//
+//     public void Hit()
+//     {
+//         own++;
+//         shared++;
+//     }
+//
+//     public static void Show() => Console.WriteLine(shared);
+// }
+//
+// var c1 = new Counter();
+// var c2 = new Counter();
+// c1.Hit();
+// c2.Hit();                        // own у каждого = 1, shared = 2
+// Counter.Show();                  // 2 (static вызывается через имя класса)
+
+/*
+ * Время жизни
+ * локальная переменная / параметр: от объявления до конца блока или метода
+ * поле: пока существует объект
+ * static-поле: пока работает программа
+ */
+ 
+
+/*
+ * Инструкция try-catch-finally
+ * try-catch-finally Используйте инструкцию как для обработки исключений,
+ * которые могут возникать во время выполнения try блока, так и для указания кода,
+ * который должен выполняться при выходе try элемента управления из оператора:
+*/
+ 
+// public async Task ProcessRequest(int itemId, CancellationToken ct)
+// {
+//  Busy = true;
+//
+//  try
+//  {
+//   await ProcessAsync(itemId, ct);
+//  }
+//  catch (Exception e) when (e is not OperationCanceledException)
+//  {
+//   LogError(e, $"Failed to process request for item ID {itemId}.");
+//   throw;
+//  }
+//  finally
+//  {
+//   Busy = false;
+//  }
+//
+// }
+ 
+ 
+ /*
+  * Преимущество использования обобщений — в возможности избежать упаковки и распаковки значимых типов. 
+  * Это позволяет увеличить производительность кода.
+  * Также благодаря обобщениям код можно использовать повторно.
+  * Нет необходимости писать свой собственный код для каждого типа данных,
+  * не нужно использовать перегрузку методов и писать отдельный классы для типов данных.
+  * С generics в C# намного меньше шансов получить какие-либо ошибки,
+  * поскольку код лежит в одном конкретном месте программы. 
+  * Ссылка на статью https://highload.tech/generics-v-c-sharp/
+  */
+  
+ // Статические поля generic-классов
+ // Статические поля практически всегда уникальны для отдельно взятого закрытого типа:
+ // class Bob<T> { public static int Count; }
+ // ...
+ // Console.WriteLine (++Bob<int>.Count); // 1
+ // Console.WriteLine (++Bob<int>.Count); // 2
+ // Console.WriteLine (++Bob<string>.Count); // 1
+ // Console.WriteLine (++Bob<object>.Count); // 1
+ 
+ /*
+  *Среда выполнения .NET предоставляет множество типов коллекций,
+  * которые хранят группы связанных объектов и управляют ими.
+  * Некоторые типы коллекций, такие как System.Array, System.Span<T>и System.Memory<T>,
+  * распознаются на языке C#. Кроме того, интерфейсы,
+  * такие как System.Collections.Generic.IEnumerable<T> распознаются на языке для перечисления элементов коллекции.
+  * ССылка на документацию https://learn.microsoft.com/ru-ru/dotnet/csharp/language-reference/builtin-types/collections
+  */
+  
+ /*
+  * List<T>: создание
+  */
+
+// List<int> numbers = new List<int>();            // пустой
+// List<string> names = new List<string> { "Ana", "Ben", "Chloe" };   // с начальными значениями
+// var scores = new List<int> { 90, 85, 70 };      // var: тип выводится
+// List<int> copy = new List<int>(numbers);        // копия другого списка
+
+/*
+ * Add, AddRange: добавить в конец
+ */
+
+// var names = new List<string>();
+// names.Add("Ana");
+// names.Add("Ben");
+// names.AddRange(new[] { "Chloe", "Dan" });       // сразу несколько
+// Console.WriteLine(string.Join(", ", names));    // Ana, Ben, Chloe, Dan
+
+/*
+ * Insert: вставить по индексу, остальные сдвигаются вправо
+ */
+
+// var names = new List<string> { "Ana", "Chloe" };
+// names.Insert(1, "Ben");                         // Ana, Ben, Chloe
+// names.Insert(0, "Zed");                         // Zed, Ana, Ben, Chloe
+
+/*
+ * Remove, RemoveAt, RemoveAll, Clear
+ */
+
+// var nums = new List<int> { 5, 3, 5, 8, 1 };
+//
+// bool ok = nums.Remove(5);        // удаляет ПЕРВОЕ совпадение, вернёт true/false
+// // теперь: 3, 5, 8, 1
+//
+// nums.RemoveAt(0);                // удалить по индексу: 5, 8, 1
+// nums.RemoveAll(x => x > 5);      // удалить по условию: 5, 1
+// nums.Clear();                    // очистить весь список
+
+/*
+ * Contains, IndexOf: поиск
+ */
+
+// var names = new List<string> { "Ana", "Ben", "Chloe" };
+//
+// Console.WriteLine(names.Contains("Ben"));     // True
+// Console.WriteLine(names.Contains("Zed"));     // False
+// Console.WriteLine(names.IndexOf("Chloe"));    // 2
+// Console.WriteLine(names.IndexOf("Zed"));      // -1 (не найден)
+
+/*
+ * Count и индексатор []
+ * У массива Length, у списка Count
+ */
+
+// var names = new List<string> { "Ana", "Ben", "Chloe" };
+//
+// Console.WriteLine(names.Count);    // 3
+// Console.WriteLine(names[0]);       // Ana
+// names[1] = "Boris";                // заменить элемент
+// Console.WriteLine(names[names.Count - 1]);   // последний: Chloe
+// Console.WriteLine(names[^1]);                // то же самое, короче
+//
+// Console.WriteLine(names[10]);      // ошибка ArgumentOutOfRangeException
+
+/*
+ * Перебор
+ */
+
+// var names = new List<string> { "Ana", "Ben", "Chloe" };
+//
+// foreach (string n in names)
+// {
+//     Console.WriteLine(n);
+// }
+//
+// for (int i = 0; i < names.Count; i++)
+// {
+//     Console.WriteLine($"{i}: {names[i]}");
+// }
+//
+// // В foreach нельзя добавлять и удалять элементы списка:
+// // будет InvalidOperationException. Для удаления используйте for с конца или RemoveAll.
+
+/*
+ * Полезное: Sort, Reverse, ToArray
+ */
+
+// var nums = new List<int> { 5, 2, 9, 1 };
+// nums.Sort();                       // 1, 2, 5, 9
+// nums.Reverse();                    // 9, 5, 2, 1
+// int[] arr = nums.ToArray();        // список в массив
+// var list = arr.ToList();           // массив в список (нужен using System.Linq)
+
+/*
+ * Еще один распространенный тип коллекции представляют словари.
+ * Словарь хранит объекты, которые представляют пару ключ-значение.
+ * Класс словаря Dictionary<K, V> типизируется двумя типами:
+ * параметр K представляет тип ключей,
+ * а параметр V предоставляет тип значений.
+ * ссылка на ресурс https://metanit.com/sharp/tutorial/4.9.php
+ */
+
+/*
+ * Обязательно использовать импорт Using
+ */
+
+using System.Collections.Generic;
+
+ /*
+  * Создания и инициализация словаря
+  */
+
+// Dictionary<int, string> people = new Dictionary<int, string>();
+
+/*
+ * При определении словаря его сразу же можно инициализировать значениями
+ */
+
+ // var ages = new Dictionary<string, int>();
+ // ages["Аня"]  = 25;
+ // ages["Боря"] = 30;
+ // ages["Вика"] = 22;
+ //
+ // Console.WriteLine(ages["Боря"]);  // 30
+ // Console.WriteLine(ages.Count);   
+ 
+/*
+ * Создание
+ */
+
+// Dictionary<string, int> ages = new Dictionary<string, int>();
+//
+// var prices = new Dictionary<string, double>
+// {
+//     { "Хлеб", 5.5 },
+//     { "Молоко", 12.0 }
+// };
+//
+// var rooms = new Dictionary<int, string>   // инициализатор через индексатор
+// {
+//     [10] = "Kilo",
+//     [9] = "Mila"
+// };
+
+/*
+ * Add и индексатор []
+ */
+
+// var ages = new Dictionary<string, int>();
+//
+// ages.Add("Ana", 20);
+// ages.Add("Ben", 25);
+// // ages.Add("Ana", 30);        // ошибка ArgumentException: ключ уже есть
+//
+// ages["Chloe"] = 22;            // ключа нет: добавит
+// ages["Ana"] = 21;              // ключ есть: перезапишет (без ошибки)
+//
+// Console.WriteLine(ages["Ben"]);       // 25
+// // Console.WriteLine(ages["Zed"]);    // ошибка KeyNotFoundException
+
+/*
+ * ContainsKey, ContainsValue: проверка
+ */
+
+// Console.WriteLine(ages.ContainsKey("Ana"));      // True
+// Console.WriteLine(ages.ContainsKey("Zed"));      // False
+// Console.WriteLine(ages.ContainsValue(25));       // True (медленнее, перебирает все значения)
+
+/*
+ * TryGetValue: безопасное получение (как TryParse)
+ * Возвращает true/false, значение кладёт в out-переменную
+ */
+
+// if (ages.TryGetValue("Ben", out int age))
+// {
+//     Console.WriteLine($"Возраст Ben: {age}");
+// }
+// else
+// {
+//     Console.WriteLine("Не найден");
+// }
+//
+// // Если ключа нет, age будет 0 (default), но использовать её не нужно.
+
+/*
+ * Remove, Count, Clear
+ */
+
+// ages.Remove("Ana");                  // true, если удалил
+// Console.WriteLine(ages.Count);       // количество пар
+// ages.Clear();                        // очистить
+
+/*
+ * Перебор
+ */
+
+// var ages = new Dictionary<string, int> { { "Ana", 20 }, { "Ben", 25 } };
+//
+// // Пары целиком
+// foreach (KeyValuePair<string, int> pair in ages)
+// {
+//     Console.WriteLine($"{pair.Key}: {pair.Value}");
+// }
+//
+// // То же короче: var и деконструкция
+// foreach (var (name, age) in ages)
+// {
+//     Console.WriteLine($"{name}: {age}");
+// }
+//
+// // Только ключи или только значения
+// foreach (string key in ages.Keys) Console.WriteLine(key);
+// foreach (int value in ages.Values) Console.WriteLine(value);
+//
+// // Менять словарь внутри foreach нельзя (InvalidOperationException).
+
+/*
+ * Частая задача: подсчёт повторов
+ */
+
+// string[] words = { "a", "b", "a", "c", "a", "b" };
+// var counts = new Dictionary<string, int>();
+//
+// foreach (string w in words)
+// {
+//     if (counts.ContainsKey(w))
+//         counts[w]++;
+//     else
+//         counts[w] = 1;
+// }
+// // a: 3, b: 2, c: 1
+

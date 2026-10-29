@@ -99,18 +99,18 @@ Expression-bodied методы (=>)
 
 
 13. Область видимости
-Блоки {} и где живёт переменная
-Параметры и локальные переменные
-Затенение переменных
-Поля и static (кратко, перед ООП)
-Время жизни переменных
+Блоки {} и где живёт переменная Прощел.
+Параметры и локальные переменные Прощел.
+Затенение переменных Прощел.
+Поля и static (кратко, перед ООП) Прощел.
+Время жизни переменных Прощел.
 
 
 14. Обработка ошибок
-try, catch, finally
-throw и повторный throw
-Типы исключений: FormatException, DivideByZeroException, IndexOutOfRangeException, NullReferenceException, ArgumentException
-Фильтры catch when (базово)
+try, catch, finally  Прощел.
+throw и повторный throw  Прощел.
+Типы исключений: FormatException, DivideByZeroException, IndexOutOfRangeException, NullReferenceException, ArgumentException  Прощел.
+Фильтры catch when (базово)  
 
 
 15. Обобщения (generics), нужны для коллекций
@@ -119,8 +119,8 @@ throw и повторный throw
 
 
 16. Коллекции
-List<T>: Add, Remove, Insert, Contains, Count, индексатор
-Dictionary<TKey, TValue>: Add, TryGetValue, ContainsKey, перебор
+List<T>: Add, Remove, Insert, Contains, Count, индексатор Прошел.
+Dictionary<TKey, TValue>: Add, TryGetValue, ContainsKey, перебор  Прошел.
 HashSet<T>
 Queue<T>, Stack<T>
 IEnumerable<T> и foreach по коллекциям
