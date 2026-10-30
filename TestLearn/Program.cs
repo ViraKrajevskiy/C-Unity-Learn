@@ -1120,3 +1120,305 @@ using System.Collections.Generic;
 // }
 // // a: 3, b: 2, c: 1
 
+/*
+ * Queue<T>, Stack<T> 
+ */
+ 
+ 
+ /*
+  * HashSet<T>: создание и Add
+  * Add возвращает true, если элемент добавлен, и false, если он уже был
+  */
+
+// var tags = new HashSet<string>();
+//
+// Console.WriteLine(tags.Add("c#"));       // True
+// Console.WriteLine(tags.Add("sql"));      // True
+// Console.WriteLine(tags.Add("c#"));       // False (дубликат, не добавлен)
+// Console.WriteLine(tags.Count);           // 2
+//
+// var nums = new HashSet<int> { 1, 2, 2, 3, 3, 3 };   // останется 1, 2, 3
+
+/*
+ * Contains, Remove: быстрый поиск (быстрее, чем у List на больших данных)
+ */
+
+// Console.WriteLine(tags.Contains("sql"));   // True
+// tags.Remove("sql");
+// Console.WriteLine(tags.Contains("sql"));   // False
+//
+// // Индексатора нет: tags[0] даст ошибку. Только foreach.
+// foreach (string t in tags)
+//     Console.WriteLine(t);
+
+/*
+ * Убрать дубликаты из списка или массива
+ */
+
+// int[] data = { 5, 3, 5, 1, 3, 8 };
+// var unique = new HashSet<int>(data);
+// Console.WriteLine(string.Join(", ", unique));   // 5, 3, 1, 8
+
+/*
+ * Операции над множествами
+ */
+
+// var a = new HashSet<int> { 1, 2, 3, 4 };
+// var b = new HashSet<int> { 3, 4, 5 };
+//
+// a.UnionWith(b);          // объединение: 1, 2, 3, 4, 5 (изменяет a)
+// a.IntersectWith(b);      // пересечение: 3, 4, 5 (изменяет a)
+// a.ExceptWith(b);         // разность: убирает из a всё, что есть в b
+// Console.WriteLine(a.IsSubsetOf(b));   // true/false: a целиком входит в b
+
+// var bookedRooms = new HashSet<int> { 9, 10 };
+//
+// int room = 11;
+// if (bookedRooms.Add(room))
+//     Console.WriteLine("Номер забронирован");
+// else
+//     Console.WriteLine("Номер уже занят");
+
+/*
+ * Enqueue: в конец, Dequeue: взять с начала и удалить, Peek: посмотреть без удаления
+ */
+
+// var queue = new Queue<string>();
+//
+// queue.Enqueue("Ana");
+// queue.Enqueue("Ben");
+// queue.Enqueue("Chloe");
+//
+// Console.WriteLine(queue.Peek());       // Ana (остаётся в очереди)
+// Console.WriteLine(queue.Dequeue());    // Ana (удалён)
+// Console.WriteLine(queue.Dequeue());    // Ben
+// Console.WriteLine(queue.Count);        // 1
+
+/*
+ * Dequeue и Peek на пустой очереди дают InvalidOperationException
+ * Безопасно: TryDequeue / TryPeek или проверка Count
+ */
+
+// if (queue.TryDequeue(out string? next))
+//     Console.WriteLine($"Обслуживаем: {next}");
+// else
+//     Console.WriteLine("Очередь пуста");
+//
+// // Перебор: foreach идёт от начала очереди, элементы не удаляются
+// foreach (string s in queue)
+//     Console.WriteLine(s);
+
+/*
+ * Push: положить сверху, Pop: взять сверху и удалить, Peek: посмотреть без удаления
+ */
+
+// var stack = new Stack<string>();
+//
+// stack.Push("a");
+// stack.Push("b");
+// stack.Push("c");
+//
+// Console.WriteLine(stack.Peek());    // c (остаётся)
+// Console.WriteLine(stack.Pop());     // c (удалён)
+// Console.WriteLine(stack.Pop());     // b
+// Console.WriteLine(stack.Count);     // 1
+//
+// // Pop и Peek на пустом стеке: InvalidOperationException
+// if (stack.TryPop(out string? top))
+//     Console.WriteLine(top);
+//
+// // Перебор: foreach идёт от верхнего элемента к нижнему
+
+/*
+ * Пример: проверка скобок в строке
+ */
+
+// bool IsBalanced(string text)
+// {
+//     var stack = new Stack<char>();
+//
+//     foreach (char c in text)
+//     {
+//         if (c == '(')
+//             stack.Push(c);
+//         else if (c == ')')
+//         {
+//             if (stack.Count == 0) return false;
+//             stack.Pop();
+//         }
+//     }
+//
+//     return stack.Count == 0;
+// }
+//
+// Console.WriteLine(IsBalanced("(a + b) * (c)"));   // True
+// Console.WriteLine(IsBalanced("(a + b))"));        // False
+
+/*
+ * enum: объявление и использование
+ * По умолчанию значения нумеруются с 0: Free = 0, Booked = 1, Cancelled = 2
+ */
+
+// enum RoomStatus { Free, Booked, Cancelled }
+//
+// RoomStatus status = RoomStatus.Free;
+// Console.WriteLine(status);              // Free (выводится имя, не число)
+//
+// status = RoomStatus.Booked;
+// if (status == RoomStatus.Booked)
+//     Console.WriteLine("Номер занят");
+//
+// // enum объявляют после top-level кода или в отдельном файле
+
+/*
+ * Свои значения
+ */
+
+// enum Level
+// {
+//     Low = 10,
+//     Medium = 50,
+//     High = 100
+// }
+//
+// enum Day { Mon = 1, Tue, Wed }   // дальше нумерация идёт сама: Tue = 2, Wed = 3
+
+/*
+ * enum в int и обратно: явное приведение
+ */
+
+// RoomStatus s = RoomStatus.Booked;
+// int code = (int)s;                    // 1
+// RoomStatus back = (RoomStatus)2;      // Cancelled
+//
+// // Приведение не проверяет значение: (RoomStatus)99 не даст ошибки
+// Console.WriteLine(Enum.IsDefined(typeof(RoomStatus), 99));   // False
+
+/*
+ * Строка в enum и обратно
+ */
+
+// string text = RoomStatus.Free.ToString();             // "Free"
+//
+// if (Enum.TryParse("Booked", out RoomStatus parsed))   // как int.TryParse
+//     Console.WriteLine(parsed);                        // Booked
+//
+// Enum.TryParse("booked", true, out RoomStatus p2);     // true: игнорировать регистр
+//
+// // Перебор всех значений
+// foreach (RoomStatus v in Enum.GetValues<RoomStatus>())
+//     Console.WriteLine($"{v} = {(int)v}");
+
+/*
+ * switch по enum: классический
+ */
+
+// switch (status)
+// {
+//     case RoomStatus.Free:
+//         Console.WriteLine("Свободен");
+//         break;
+//     case RoomStatus.Booked:
+//         Console.WriteLine("Занят");
+//         break;
+//     default:
+//         Console.WriteLine("Отменён");
+//         break;
+// }
+//
+// /*
+//  * switch expression: короче, возвращает значение
+//  */
+//
+// string text = status switch
+// {
+//     RoomStatus.Free => "Свободен",
+//     RoomStatus.Booked => "Занят",
+//     RoomStatus.Cancelled => "Отменён",
+//     _ => "Неизвестно"
+// };
+
+// [Flags]
+// enum Perm { None = 0, Read = 1, Write = 2, Delete = 4 }
+//
+// Perm p = Perm.Read | Perm.Write;
+// Console.WriteLine(p);                        // Read, Write
+// Console.WriteLine(p.HasFlag(Perm.Write));    // True
+
+/*
+ * Создание: безымянные и именованные элементы
+ */
+
+// (int, string) pair = (1, "Ana");
+// Console.WriteLine(pair.Item1);       // 1
+// Console.WriteLine(pair.Item2);       // Ana
+//
+// (int Id, string Name) user = (1, "Ana");
+// Console.WriteLine(user.Id);          // 1
+// Console.WriteLine(user.Name);        // Ana
+//
+// var person = (Name: "Ben", Age: 25); // var + имена
+// Console.WriteLine($"{person.Name}, {person.Age}");
+//
+// person.Age = 26;                     // элементы кортежа можно менять
+
+/*
+ * Кортеж как возвращаемое значение метода
+ */
+
+// (int Min, int Max) MinMax(int[] arr)
+// {
+//     int min = arr[0], max = arr[0];
+//     foreach (int n in arr)
+//     {
+//         if (n < min) min = n;
+//         if (n > max) max = n;
+//     }
+//     return (min, max);
+// }
+//
+// var result = MinMax(new[] { 4, 9, 1 });
+// Console.WriteLine($"{result.Min} {result.Max}");   // 1 9
+
+/*
+ * Деконструкция: разложить кортеж по переменным
+ */
+
+// (int min, int max) = MinMax(new[] { 4, 9, 1 });
+// Console.WriteLine($"{min} {max}");
+//
+// var (a, b) = (10, "text");            // var для всех сразу
+// var (x, _) = MinMax(new[] { 4, 9 });  // _ значит: второе значение не нужно
+//
+// // Обмен значений без временной переменной
+// int p = 1, q = 2;
+// (p, q) = (q, p);                      // p = 2, q = 1
+
+/*
+ * Сравнение: кортежи равны, если равны все элементы
+ */
+
+// Console.WriteLine((1, "a") == (1, "a"));   // True
+
+/*
+ * Кортеж в списке и словаре
+ */
+
+// var rooms = new List<(int Number, RoomStatus Status)>
+// {
+//     (10, RoomStatus.Free),
+//     (9, RoomStatus.Booked)
+// };
+//
+// foreach (var (number, status) in rooms)
+//     Console.WriteLine($"{number}: {status}");
+
+// (bool Success, string Message) Book(int room, HashSet<int> booked)
+// {
+//     if (booked.Add(room))
+//         return (true, "Номер успешно забронирован");
+//     return (false, "Номер уже занят");
+// }
+//
+// var (ok, message) = Book(11, new HashSet<int> { 9, 10 });
+// Console.WriteLine(message);

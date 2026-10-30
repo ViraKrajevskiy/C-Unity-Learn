@@ -121,8 +121,8 @@ throw и повторный throw  Прощел.
 16. Коллекции
 List<T>: Add, Remove, Insert, Contains, Count, индексатор Прошел.
 Dictionary<TKey, TValue>: Add, TryGetValue, ContainsKey, перебор  Прошел.
-HashSet<T>
-Queue<T>, Stack<T>
+HashSet<T> Прошел.
+Queue<T>, Stack<T> Прошел.
 IEnumerable<T> и foreach по коллекциям
 
 
