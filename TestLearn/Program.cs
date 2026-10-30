@@ -1695,3 +1695,129 @@ using System.Collections.Generic;
 // // Найти номер по владельцу, может не найтись
 // var mila = rooms.FirstOrDefault(r => r.Owner == "Mila");
 // Console.WriteLine(mila.Number);                                   // 9
+
+
+
+/*
+ * Класс = чертёж. Объект = экземпляр, созданный по чертежу через new.
+ * Поля хранят данные объекта, методы описывают его действия.
+ * Классы пишутся ПОСЛЕ top-level кода (или в отдельном файле).
+ */
+
+// var room1 = new Room();
+// room1.Number = 10;
+// room1.Booked = false;
+// room1.Show();                 // Номер 10: свободен
+//
+// var room2 = new Room();       // отдельный объект, свои данные
+// room2.Number = 9;
+// room2.Booked = true;
+// room2.Show();                 // Номер 9: занят
+//
+// class Room
+// {
+//     public int Number;        // поле
+//     public bool Booked;       // поле
+//
+//     public void Show()        // метод
+//     {
+//         string state = Booked ? "занят" : "свободен";
+//         Console.WriteLine($"Номер {Number}: {state}");
+//     }
+//
+//     public void Book() => Booked = true;   // метод меняет поля своего объекта
+// }
+
+/*
+ * Что делает new
+ * 1. Выделяет память под объект
+ * 2. Заполняет поля значениями по умолчанию (0, false, null)
+ * 3. Вызывает конструктор
+ * 4. Возвращает ссылку на объект
+ */
+
+// class Demo
+// {
+//     public int N;            // 0
+//     public bool Flag;        // false
+//     public string? Text;     // null
+// }
+//
+// Demo d = new Demo();         // полная запись
+// Demo d2 = new();             // короткая (C# 9+), тип берётся слева
+// var d3 = new Demo();         // var, тип берётся справа
+
+/*
+ * Инициализатор объекта: задать поля сразу при создании
+ */
+
+// var room = new Room { Number = 11, Booked = true };
+
+/*
+ * Ссылочная природа: переменная хранит ССЫЛКУ на объект, а не сам объект
+ */
+
+// var a = new Room { Number = 1 };
+// var b = a;                         // копируется ссылка, объект один
+// b.Number = 99;
+// Console.WriteLine(a.Number);       // 99, a и b указывают на один объект
+//
+// var c = new Room { Number = 1 };   // другой объект
+// Console.WriteLine(a == c);         // False: сравниваются ссылки, а не содержимое
+//
+// // Сравнение с int (значимый тип): копируется значение
+// int x = 1;
+// int y = x;
+// y = 99;
+// Console.WriteLine(x);              // 1
+
+/*
+ * Передача объекта в метод: копируется ссылка
+ */
+
+// void Rename(Room r)
+// {
+//     r.Number = 500;                // изменение объекта видно снаружи
+//     r = new Room { Number = 7 };   // переприсваивание снаружи НЕ видно
+// }
+//
+// var room = new Room { Number = 1 };
+// Rename(room);
+// Console.WriteLine(room.Number);    // 500
+
+/*
+ * null: ссылка есть, объекта нет
+ */
+
+// Room? r = null;
+// // r.Show();                       // NullReferenceException
+// r?.Show();                         // безопасно: ничего не произойдёт
+//
+// if (r != null) r.Show();           // то же через проверку
+// Console.WriteLine(r?.Number);      // пусто: ?. вернул null
+// Console.WriteLine(r?.Number ?? -1);   // -1: значение по умолчанию
+
+/*
+ * Объекты в коллекциях: замена анонимных типов в программе бронирования
+ */
+
+// var rooms = new List<Room>
+// {
+//     new Room { Number = 9, Booked = true },
+//     new Room { Number = 10 },
+//     new Room { Number = 11 }
+// };
+//
+// rooms[1].Book();
+// foreach (var r in rooms) r.Show();
+//
+// var free = rooms.Where(r => !r.Booked).ToList();   // LINQ работает с объектами
+// rooms.Add(new Room { Number = 12 });               // добавить можно, в отличие от анонимных типов
+
+/*
+ * Сборщик мусора: объект без ссылок удаляется автоматически
+ */
+
+// var temp = new Room { Number = 1 };
+// temp = null;                       // объект больше никем не используется,
+//                                    // память освободит сборщик мусора (GC)
