@@ -1422,3 +1422,276 @@ using System.Collections.Generic;
 //
 // var (ok, message) = Book(11, new HashSet<int> { 9, 10 });
 // Console.WriteLine(message);
+
+
+/*
+ * Лямбда: (параметры) => выражение
+ * Читается как «параметры → результат»
+ */
+
+// Func<int, int> square = x => x * x;
+// Console.WriteLine(square(5));            // 25
+//
+// Func<int, int, int> add = (a, b) => a + b;
+// Console.WriteLine(add(2, 3));            // 5
+//
+// Action hello = () => Console.WriteLine("Привет");   // без параметров
+// hello();
+//
+// // Тело в { }, если несколько строк (нужен return, если есть результат)
+// Func<int, string> describe = n =>
+// {
+//     if (n < 0) return "минус";
+//     return n == 0 ? "ноль" : "плюс";
+// };
+
+
+/*
+ * Action: метод без результата
+ */
+
+// Action<string> print = text => Console.WriteLine($"> {text}");
+// print("Привет");
+//
+// Action<string, int> repeat = (text, n) =>
+// {
+//     for (int i = 0; i < n; i++) Console.WriteLine(text);
+// };
+// repeat("Ура", 3);
+
+/*
+ * Func: метод с результатом. Последний тип в <> это тип результата
+ */
+
+// Func<double> pi = () => 3.14;                      // 0 параметров, double
+// Func<string, int> length = s => s.Length;          // string → int
+// Func<int, int, bool> isBigger = (a, b) => a > b;   // (int, int) → bool
+
+/*
+ * Predicate: проверка «подходит или нет»
+ */
+
+// Predicate<int> isEven = n => n % 2 == 0;
+// Console.WriteLine(isEven(4));    // True
+// Console.WriteLine(isEven(5));    // False
+
+
+/*
+ * Свой метод принимает Func
+ */
+
+// int[] Apply(int[] arr, Func<int, int> op)
+// {
+//     var result = new int[arr.Length];
+//     for (int i = 0; i < arr.Length; i++)
+//         result[i] = op(arr[i]);
+//     return result;
+// }
+//
+// int[] nums = { 1, 2, 3 };
+//
+// Console.WriteLine(string.Join(", ", Apply(nums, x => x * 2)));    // 2, 4, 6
+// Console.WriteLine(string.Join(", ", Apply(nums, x => x + 10)));   // 11, 12, 13
+
+/*
+ * Можно передать и обычный метод по имени
+ */
+
+// int Triple(int x) => x * 3;
+//
+// Console.WriteLine(string.Join(", ", Apply(nums, Triple)));        // 3, 6, 9
+
+/*
+ * Так работают методы List<T>: RemoveAll, FindAll, Find, Exists, Sort, ForEach
+ */
+
+// var list = new List<int> { 5, 12, 7, 20, 3 };
+//
+// list.RemoveAll(n => n < 6);                  // удалить подходящие: 12, 7, 20
+// int first = list.Find(n => n > 10);          // первый подходящий: 12
+// List<int> big = list.FindAll(n => n > 8);    // все подходящие: 12, 20
+// bool any = list.Exists(n => n == 7);         // True
+// list.Sort((a, b) => b.CompareTo(a));         // по убыванию: 20, 12, 7
+// list.ForEach(n => Console.WriteLine(n));     // Action для каждого
+
+
+// int factor = 10;
+// Func<int, int> mul = x => x * factor;
+// Console.WriteLine(mul(3));      // 30
+//
+// factor = 100;                   // лямбда читает переменную, а не копию
+// Console.WriteLine(mul(3));      // 300
+
+// int factor = 10;
+// Func<int, int> mul = x => x * factor;
+// Console.WriteLine(mul(3));      // 30
+//
+// factor = 100;                   // лямбда читает переменную, а не копию
+// Console.WriteLine(mul(3));      // 300
+
+// Action log = () => Console.WriteLine("Первый");
+// log += () => Console.WriteLine("Второй");   // += добавляет ещё метод
+// log();                                      // выполнятся оба по порядку
+
+
+// var rooms = new List<(int Number, bool Booked)>
+// {
+//     (9, true), (10, false), (11, false)
+// };
+//
+// var free = rooms.FindAll(r => !r.Booked);
+// Console.WriteLine($"Свободно: {free.Count}");
+//
+// void ShowRooms(List<(int Number, bool Booked)> list, Predicate<(int Number, bool Booked)> filter)
+// {
+//     foreach (var r in list)
+//         if (filter(r)) Console.WriteLine($"Номер {r.Number}");
+// }
+//
+// ShowRooms(rooms, r => !r.Booked);   // только свободные
+// ShowRooms(rooms, r => r.Number > 9);  // другой фильтр, тот же метод
+
+// int[] nums = { 5, 12, 7, 20, 3, 12 };
+// var names = new List<string> { "Ana", "Ben", "Chloe", "Dan" };
+
+/*
+ * Where: оставить элементы, для которых условие true
+ */
+
+// var big = nums.Where(n => n > 6);
+// Console.WriteLine(string.Join(", ", big));          // 12, 7, 20, 12
+//
+// var shortNames = names.Where(n => n.Length <= 3);
+// Console.WriteLine(string.Join(", ", shortNames));   // Ana, Ben, Dan
+
+/*
+ * Select: из каждого элемента сделать новое значение
+ */
+
+// var doubled = nums.Select(n => n * 2);
+// Console.WriteLine(string.Join(", ", doubled));      // 10, 24, 14, 40, 6, 24
+//
+// var lengths = names.Select(n => n.Length);          // 3, 3, 5, 3
+//
+// var upper = names.Select(n => n.ToUpper());         // ANA, BEN, CHLOE, DAN
+//
+// // Можно вернуть кортеж или анонимный тип
+// var info = names.Select(n => (Name: n, Len: n.Length));
+
+/*
+ * OrderBy по возрастанию, OrderByDescending по убыванию
+ * Исходная коллекция не меняется, возвращается новая последовательность
+ */
+
+// var asc = nums.OrderBy(n => n);                     // 3, 5, 7, 12, 12, 20
+// var desc = nums.OrderByDescending(n => n);          // 20, 12, 12, 7, 5, 3
+//
+// var byLength = names.OrderBy(n => n.Length);        // Ana, Ben, Dan, Chloe
+//
+// // Вторичная сортировка: ThenBy
+// var sorted = names.OrderBy(n => n.Length).ThenBy(n => n);
+
+/*
+ * Агрегаты: из коллекции получить одно число
+ */
+
+// Console.WriteLine(nums.Sum());                      // 59
+// Console.WriteLine(nums.Count());                    // 6
+// Console.WriteLine(nums.Max());                      // 20
+// Console.WriteLine(nums.Min());                      // 3
+// Console.WriteLine(nums.Average());                  // 9.8333...
+//
+// // С условием или выбором поля
+// Console.WriteLine(nums.Count(n => n > 6));          // 4
+// Console.WriteLine(names.Sum(n => n.Length));        // 14
+// Console.WriteLine(names.Max(n => n.Length));        // 5
+//
+// // У List есть свойство Count, у LINQ метод Count().
+// // Для списка и массива свойство (Count / Length) быстрее.
+
+/*
+ * First: первый элемент (или первый, подходящий под условие)
+ * Если нет подходящего, будет InvalidOperationException
+ */
+
+// Console.WriteLine(nums.First());                    // 5
+// Console.WriteLine(nums.First(n => n > 10));         // 12
+// Console.WriteLine(nums.Last());                     // 12
+//
+// // FirstOrDefault: если нет, вернёт значение по умолчанию (0, null)
+// Console.WriteLine(nums.FirstOrDefault(n => n > 100));        // 0
+// string? found = names.FirstOrDefault(n => n.StartsWith("Z"));   // null
+//
+// if (found == null)
+//     Console.WriteLine("Не найдено");
+
+/*
+ * Any: есть ли хотя бы один подходящий (без условия: не пуста ли коллекция)
+ * All: подходят ли все
+ */
+
+// Console.WriteLine(nums.Any());                      // True
+// Console.WriteLine(nums.Any(n => n > 15));           // True
+// Console.WriteLine(nums.All(n => n > 0));            // True
+// Console.WriteLine(nums.All(n => n > 5));            // False
+// Console.WriteLine(nums.Contains(7));                // True
+//
+// // Для пустой коллекции: Any = false, All = true
+
+// nums.Distinct();                    // без дубликатов: 5, 12, 7, 20, 3
+// nums.Take(3);                       // первые три: 5, 12, 7
+// nums.Skip(2);                       // пропустить два: 7, 20, 3, 12
+// nums.Reverse();                     // в обратном порядке
+// nums.ToList();                      // в List<int>
+// nums.ToArray();                     // в массив
+// names.GroupBy(n => n.Length);       // группировка по длине
+
+/*
+ * Цепочка: фильтр → сортировка → преобразование
+ */
+
+// var result = nums
+//     .Where(n => n > 5)              // 12, 7, 20, 12
+//     .Distinct()                     // 12, 7, 20
+//     .OrderByDescending(n => n)      // 20, 12, 7
+//     .Select(n => $"№{n}")           // №20, №12, №7
+//     .ToList();
+//
+// Console.WriteLine(string.Join(", ", result));
+//
+// // Подсчёт в конце цепочки
+// int total = nums.Where(n => n % 2 == 0).Sum();     // 12 + 20 + 12 = 44
+//
+// // Сначала Where, потом сортировка: меньше элементов для сортировки
+
+// var query = nums.Where(n => n > 6);      // пока ничего не посчитано
+// var list = query.ToList();               // здесь выполнен, результат зафиксирован
+//
+// // Если перебирать query несколько раз, он пересчитывается каждый раз.
+// // Нужен результат один раз и надолго: ToList() или ToArray().
+
+// var q = from n in nums
+//         where n > 6
+//         orderby n descending
+//         select n * 2;
+
+// var rooms = new List<(int Number, string Owner, bool Booked)>
+// {
+//     (9, "Mila", true),
+//     (10, "Kilo", false),
+//     (11, "Fiae", false)
+// };
+//
+// // Свободные номера, по возрастанию
+// var free = rooms.Where(r => !r.Booked).OrderBy(r => r.Number).Select(r => r.Number);
+// Console.WriteLine("Свободные: " + string.Join(", ", free));       // 10, 11
+//
+// // Сколько занято
+// Console.WriteLine(rooms.Count(r => r.Booked));                    // 1
+//
+// // Есть ли свободные номера
+// Console.WriteLine(rooms.Any(r => !r.Booked));                     // True
+//
+// // Найти номер по владельцу, может не найтись
+// var mila = rooms.FirstOrDefault(r => r.Owner == "Mila");
+// Console.WriteLine(mila.Number);                                   // 9
