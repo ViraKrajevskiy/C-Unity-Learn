@@ -163,6 +163,7 @@
 /*
  * Вывод и добавление без использования прмо внутри Console.WriteLine 
  */
+
 // int value = 1;
 // value++;
 // Console.WriteLine("First: " + value);
@@ -173,6 +174,7 @@
 /*
  * умножение в переменной и в Console.WriteLine
  */
+
 // int fahrenheit = 94;
 // float numb = 5f / 9f;
 // int celsius = 32 ;
@@ -1697,12 +1699,40 @@ using System.Collections.Generic;
 // Console.WriteLine(mila.Number);                                   // 9
 
 
+/* OOP начало */
+
+
 
 /*
  * Класс = чертёж. Объект = экземпляр, созданный по чертежу через new.
  * Поля хранят данные объекта, методы описывают его действия.
  * Классы пишутся ПОСЛЕ top-level кода (или в отдельном файле).
  */
+
+
+ // Person tom = new Person();
+ //
+ // string personName = tom.name;
+ // int personAge = tom.age;
+ // Console.WriteLine($"Name: {personName}, Age: {personAge}");
+ //
+ // tom.name = "Tom";
+ // tom.age = 34;
+ //
+ // tom.Print();
+ //
+ // class Person
+ // {
+ //  public string name = "Unrefiend";
+ //  public int age;
+ //
+ //  public void Print()
+ //  {
+ //   Console.WriteLine($"Name: {name}, Age: {age}");
+ //  }
+ // }
+
+
 
 // var room1 = new Room();
 // room1.Number = 10;
@@ -1821,3 +1851,27 @@ using System.Collections.Generic;
 // var temp = new Room { Number = 1 };
 // temp = null;                       // объект больше никем не используется,
 //                                    // память освободит сборщик мусора (GC)
+
+
+ public class Smartphone
+ {
+  private int _batteryLife;
+
+  // Метод заряжает батарею, но не имеет доступа к уровню заряда
+  public void Charge(int amount)
+  {
+   // Устанавливаем свои правила для работы с переменной
+   if (amount <= 0)
+   {
+    throw new ArgumentException("В метод для зарядки телефона передано значение меньше либо равное нулю");
+   }
+      
+   _batteryLife += amount;
+  }
+
+  // Метод получает текущее значение, но не может его изменить
+  public int GetBatteryLife()
+  {
+   return _batteryLife;
+  }
+ }

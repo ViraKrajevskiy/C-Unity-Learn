@@ -145,19 +145,19 @@ Where, Select, OrderBy, OrderByDescending, Sum, Count, Max, Min, Average, First,
 
 
 20. Стандартная библиотека
-Random: Next с разными аргументами
-Math: Max, Min, Abs, Sqrt, Pow, Round, Floor, Ceiling, PI 
-DateTime, TimeSpan: создание, сложение, ToString
+Random: Next с разными аргументами  Прощел
+Math: Max, Min, Abs, Sqrt, Pow, Round, Floor, Ceiling, PI  Прощел 
+DateTime, TimeSpan: создание, сложение, ToString  Прощел
 
 
 Полный список тем ООП в C#
 
 1. Основы классов
 
-Класс и объект, new, ссылочная природа объектов
-Поля, методы, null
+Класс и объект, new, ссылочная природа объектов Прощел 
+Поля, методы, null 
 Модификаторы доступа: public, private, protected, internal, protected internal, private protected
-file-классы (C# 11, кратко)
+file-классы (C# 11, кратко) отложено
 Вложенные классы
 partial классы
 

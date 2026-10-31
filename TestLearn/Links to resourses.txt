@@ -1,0 +1,17 @@
+﻿Ссылки:
+1.Ресурс -   https://metanit.com/sharp/tutorial/1.1.php
+2.Ресурс -  https://highload.tech/generics-v-c-sharp/
+3.Официальная документация - https://learn.microsoft.com/ru-ru/dotnet/csharp/language-reference/builtin-types/collections
+4.Видео уроки для обучения базовые понятия -  https://youtu.be/TpkMZprzoXE?si=IcbDc52nQ-HrbQuI 
+5.Углубленное изучение C# материалы немного старые но понятные очень в курсе общий 110 видео - https://youtu.be/KyFWqbRfWIA?si=0e1ni4QS9WYU4ttO
+
+Для тех кто знает английский или можете включить субтитры - https://youtu.be/GhQdlIFylQ8?si=_iP7L4J0xHJuUJHW
+
+1. Советуеться пользоваться ресурсами и искать на английском так запросы будут лучше переводить 
+запросы на английский.
+
+
+Unity Документация.
+1. ссылка на документацию - https://docs.unity.com/en-us
+
+
